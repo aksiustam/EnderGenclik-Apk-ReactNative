@@ -4,6 +4,6 @@ Uygulamada Websitesinden Kitap epub yükleme ve uygulamada okuma özelliği vard
 
 Uygulamada Kullanıcıya bildirim gönderme ve Tiktok gibi Video izleme özellikleri vardır.
 
-Websitesinde NextJS 14 ve Özel CSS kullanılmıştır.
+Uygulama Expo ile yapılmıştır ve Websitesinde NextJS 14 ve Özel CSS kullanılmıştır.
 
 
