@@ -1,0 +1,2 @@
+İlk girişte Loading yap
+Kitap okuma Favori Değiştir

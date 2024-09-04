@@ -1,0 +1,119 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.0.x"]
+}
+
+model Admin {
+  id        Int       @id @default(autoincrement())
+  email     String?   @unique
+  password  String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  Role      Role      @default(ADMIN)
+  Account   Account[]
+
+  @@index([email])
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String?   @default("Müslüman")
+  deviceID  String?
+  expoToken String?
+  bildirim  Json?
+  sayfa     Int?      @default(0)
+  kitap     Int?      @default(0)
+  activity  Int?      @default(0)
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  Role      Role      @default(USER)
+  Book      Book[]
+}
+
+model Book {
+  id        Int       @id @default(autoincrement())
+  name      String?
+  yazar     String?
+  yayinevi  String?
+  imageid   String?
+  imageurl  String?
+  epubid    String?
+  epuburl   String?
+  onclick   Int?      @default(0)
+  yeni      Boolean?  @default(false)
+  ilk       Boolean?  @default(false)
+  archive   Boolean?  @default(false)
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  User      User[]
+}
+
+model Video {
+  id        Int       @id @default(autoincrement())
+  name      String?
+  videoid   String?
+  videourl  String?
+  short     Boolean?
+  archive   Boolean?  @default(false)
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Bookoneri {
+  id        Int       @id @default(autoincrement())
+  name      String?
+  kitap     String?
+  yazar     String?
+  yayinevi  String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Yazarlar {
+  id        Int       @id @default(autoincrement())
+  name      String?
+  tarih     String?
+  text      String?
+  text1     String?   @db.Text
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Ayarlar {
+  id        Int       @id @default(autoincrement())
+  mail      Json?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Account {
+  id                       String   @id @default(cuid())
+  userId                   Int      @unique
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String?  @db.Text
+  access_token             String?  @db.Text
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String?  @db.Text
+  session_state            String?
+  refresh_token_expires_in Int?
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+  Admin                    Admin?   @relation(fields: [adminId], references: [id])
+  adminId                  Int?
+
+  @@index([userId])
+}
